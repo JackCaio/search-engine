@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  search-front:
+    image: node:16-alpine
+    container_name: search-front
+    tty: true
+    stdin_open: true
+    command: npm start
+    restart: on-failure
+    working_dir: /app
+    volumes:
+      - ./front:/app
+    environment:
+      - REACT_APP_API_ADDRESS=http://localhost:3001/
+    depends_on:
+      - search-database
+    ports:
+      - 3000:3000
+
+  search-database:
+    image: mongo
+    container_name: search-database
+    restart: on-failure
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=pass
+    ports:
+      - 27017:27017
