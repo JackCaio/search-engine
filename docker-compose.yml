@@ -14,9 +14,25 @@ services:
     environment:
       - REACT_APP_API_ADDRESS=http://localhost:3001/
     depends_on:
-      - search-database
+      - search-back
     ports:
       - 3000:3000
+
+  search-back:
+    image: node:16
+    container_name: search-back
+    restart: on-failure
+    tty: true
+    stdin_open: true
+    working_dir: /app
+    ports:
+      - 3001:3001
+    volumes:
+      - ./back:/app
+    depends_on:
+      - search-database
+    environment:
+      - MONGO_URI=mongodb://search-database:27017/products
 
   search-database:
     image: mongo
