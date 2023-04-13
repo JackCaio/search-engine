@@ -17,10 +17,10 @@ function App() {
   const [products, setProducts] = useState([] as IProduct[]);
 
   function fetchProducts() {
-    const url = `http://localhost:3001/test/`;
-    fetch(url).then((response) => response.json()).then((data) => {
-      setProducts(data);
-    });
+    const url = `http://localhost:3001/${web}/${category}`;
+    fetch(query ? `${url}?q=${query}` : url)
+      .then((response) => response.json())
+      .then((data) => setProducts(data));
   }
 
   return (
