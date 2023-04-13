@@ -1,10 +1,28 @@
 import React, { useState } from 'react';
 import './App.css';
 
+interface IProduct {
+  id: string,
+  title: string,      // Description
+  thumbnail: string,  // Photo
+  domain_id: string,  // Category
+  price: number,      // Price
+  permalink: string   // Store Link 
+}
+
 function App() {
   const [web, setWeb] = useState('All');
   const [category, setCategory] = useState('Geladeira');
   const [query, setQuery] = useState('');
+  const [products, setProducts] = useState([] as IProduct[]);
+
+  function fetchProducts() {
+    const url = `http://localhost:3001/test/`;
+    fetch(url).then((response) => response.json()).then((data) => {
+      setProducts(data);
+    });
+  }
+
   return (
     <div className="App">
       <header className="App-header">
@@ -45,11 +63,19 @@ function App() {
               onChange={ ({ target }) => setQuery(target.value) }
             />
           </label>
-          <button type='button' onClick={() => console.log(web, category, query)}>Search</button>
+          <button type='button' onClick={fetchProducts}>Search</button>
         </header>
       </div>
       <div className="App-results">
-        
+        { products.map((product) => (
+          <div className="product-card" key={product.id}>
+            <h2>{product.title}</h2>
+            <img src={product.thumbnail} alt={`${product.id} photo`} />
+            <h4>Category: {product.domain_id}</h4>
+            <p><b>Price: R${product.price.toFixed(2)}</b></p>
+            <a href={product.permalink} target='_blank' rel="noreferrer">Buy Here</a>
+          </div>
+        )) }
       </div>
     </div>
   );
