@@ -1,3 +1,4 @@
+import Buscape from "../model/Buscape";
 import MercadoLivre from "../model/MercadoLivre";
 
 class SearchService {
@@ -11,6 +12,8 @@ class SearchService {
         return this.allFonts(category, query);
       case 'MercadoLivre':
         return MercadoLivre.search(category, query);
+      case 'Buscape':
+        return Buscape.search(category, query);
       default:
         throw new Error('No webpage selected');
     }
@@ -21,7 +24,17 @@ class SearchService {
     query: (string | undefined)
   ) {
     const mercadoLivre = await MercadoLivre.search(category, query);
-    return mercadoLivre
+    const buscape = await Buscape.search(category, query);
+    const result = mercadoLivre.concat(buscape);
+    return result.sort((a, b) => {
+      if(a.description > b.description) {
+        return 1;
+      } else if(a.description < b.description) {
+        return -1
+      } else {
+        return 0
+      }
+    })
   }
 }
 

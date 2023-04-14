@@ -25,7 +25,6 @@ app.get('/:web/:category', async (
 ) => {
   try {
     const { category, web } = req.params
-    console.log(category, web)
     const {q: query} = req.query
     const result = await SearchService.getProducts(web, category, query);
     res.status(200).json(result);

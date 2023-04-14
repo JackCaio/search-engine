@@ -3,11 +3,11 @@ import './App.css';
 
 interface IProduct {
   id: string,
-  title: string,      // Description
-  thumbnail: string,  // Photo
-  domain_id: string,  // Category
-  price: number,      // Price
-  permalink: string   // Store Link 
+  description: string,      // Description
+  photo: string,            // Photo
+  category: string,         // Category
+  price: number,            // Price
+  permalink: string         // Store Link 
 }
 
 function App() {
@@ -69,10 +69,10 @@ function App() {
       <div className="App-results">
         { products.map((product) => (
           <div className="product-card" key={product.id}>
-            <h2>{product.title}</h2>
-            <img src={product.thumbnail} alt={`${product.id} photo`} />
-            <h4>Category: {product.domain_id}</h4>
-            <p><b>Price: R${product.price.toFixed(2)}</b></p>
+            <h2>{product.description}</h2>
+            <img src={product.photo} alt={`${product.id} photo`} />
+            <h4>Category: {product.category}</h4>
+            <p><b>Price: {product.price}</b></p>
             <a href={product.permalink} target='_blank' rel="noreferrer">Buy Here</a>
           </div>
         )) }
